@@ -1,6 +1,6 @@
 <h1>Twig Funcionando</h1>
 <hr>
-<p>Olá {{ nome }}. Twig está funcionando.</p>
+<p>Olá {{ nome|upper }}. Twig está funcionando.</p>
 <p>
     {% if (legal) %}
     Você é um cara legal
@@ -14,4 +14,7 @@
         <li>{{ disc }}</li>
         {% endfor %}
     </ul>
+    <p>
+        {{ poema|nl2br }}
+    </p>
 </p>
