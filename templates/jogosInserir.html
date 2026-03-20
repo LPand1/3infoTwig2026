@@ -1,0 +1,26 @@
+{% extends "_base.html" %}
+
+{% block conteudo %}
+    
+<h3>Inserir jogo</h3>
+
+{% if erro %}
+<p style="color: red; font-weight: bolder;">{{ erro }}</p>
+{% endif %}
+
+<form action="jogosInserir.php" method="post">
+    <input type="text" name="nome" 
+    placeholder="Nome">
+    <br>
+    Estilo: <select name="estilo">
+        <option value="acao">Ação</option>
+        <option value="tiro">Tiro</option>
+        <option value="RPG">RPG</option>
+    </select>
+    <br>
+    Capa: <input type="file" name="capa">
+    <br>
+    <input type="submit" value="Gravar">
+</form>
+
+{% endblock %}
