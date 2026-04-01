@@ -1,6 +1,36 @@
 {# jogosEditar.html - isto é um comentário #}
 {% extends "_base.html" %}
 
+{% set estilos = {
+        'acao' : 'Ação',
+        'tiro' : 'Tiro',
+        'rpg' : 'RPG',
+    }
+%} 
+
 {% block conteudo %}
 <h2>Editar jogo</h2>
+<h3>Você está editando o jogo {{ jogo.nome }}</h3>
+<br>
+<div>
+    <form action="jogosEditar.php" method="post">
+        <input type="hidden" name="id" value="{{ jogo.id }}">
+        Nome: <input type="text" name="nome" placeholder="Novo nome" value="{{ jogo.nome }}">
+        <br>
+        Estilo: <select name="estilo">
+            <option value="" disabled selected hidden>{{ estilos[jogo.estilo] }}</option>
+            <option value="acao">Ação</option>
+            <option value="tiro">Tiro</option>
+            <option value="rpg">RPG</option>
+        </select>
+        <br>
+        Capa: <img src="img//{{ jogo.capa }}"> 
+        <input type="file" name="capa">
+        <br>
+        <input type="submit" value="Concluído✅"
+        style="background-color: green; font-weight: bold;">
+    </form>
+    <br>
+    <a href="jogos.php">Cancelar</a>
+</div>
 {% endblock %}
