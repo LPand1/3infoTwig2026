@@ -13,15 +13,14 @@
 <h3>Você está editando o jogo {{ jogo.nome }}</h3>
 <br>
 <div>
-    <form action="jogosEditar.php" method="post">
+    <form action="jogosEditar.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="{{ jogo.id }}">
         Nome: <input type="text" name="nome" placeholder="Novo nome" value="{{ jogo.nome }}">
         <br>
         Estilo: <select name="estilo">
-            <option value="" disabled selected hidden>{{ estilos[jogo.estilo] }}</option>
-            <option value="acao">Ação</option>
-            <option value="tiro">Tiro</option>
-            <option value="rpg">RPG</option>
+            <option value="acao" {% if jogo.estilo == 'acao' %} selected{% endif %}>Ação</option>
+            <option value="tiro" {% if jogo.estilo == 'tiro' %} selected{% endif %}>Tiro</option>
+            <option value="rpg" {% if jogo.estilo == 'rpg' %} selected{% endif %}>RPG</option>
         </select>
         <br>
         Capa: <img src="img//{{ jogo.capa }}"> 

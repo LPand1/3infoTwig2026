@@ -4,19 +4,36 @@ require('carregarTwig.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = (int) $_POST['id'] ?? false;
-    $nome = (string) $_POST['nome'] ?? false;
-    $capa = uniqid().'.'.$ext;
+    $nome = $_POST['nome'] ?? false;
+    $estilo = $_POST['estilo'] ?? false;
 
-    move_uploaded_file($_FILES['capa'] ['tmp_name'], "img/{$capa}");
+    if (!$_FILES['capa']['error']) {
+        // Descobre nome do arquivo anterior
+        $dados = $pdo->prepare('SELECT capa FROM jogos WHERE id = :id');
+        $dados->execute([':id' => $id]);
+        $capaVelha = $dados->fetch(PDO::FETCH_ASSOC)['capa'];
+        // Apagar a capa
+        $capaVelha = __DIR__ . '/img/' . $capaVelha;
+        if (file_exists($capaVelha)) {
+            unlink($capaVelha);
+        }
 
-    if ($id) {
-        $editar = $pdo->prepare('UPDATE jogos SET nome = :nome, estilo = :estilo, capa = :capa
-        WHERE id = :id');
-        $editar->bindParam(':id', $id);
-        $editar->bindParam(':nome', $nome);
-        $editar->bindParam(':estilo', $estilo);
-        $editar->bindParam(':capa', $capa);
+        // Gravar a capa
+        $ext = pathinfo($_FILES['capa']['name'], PATHINFO_EXTENSION);
+        $capa = uniqid() . '.' . $ext;
+        move_uploaded_file($_FILES['capa']['tmp_name'], "img/{$capa}");
     }
+
+    $sql = 'UPDATE jogos SET nome = :nome, estilo = :estilo' . (isset($capa) ? ', capa = :capa' : '') . 'WHERE id = :id';
+    $params = [
+        ':id' => $id,
+        ':nome' => $nome,
+        ':estilo' => $estilo,
+    ];
+    $dados = $pdo->prepare($sql);
+    if (isset($capa)) { $params[':capa'] = $capa; }
+    $dados->execute($params);
+    
     header('location:jogos.php');
     die;
 }
