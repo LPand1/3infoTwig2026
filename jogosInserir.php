@@ -4,8 +4,9 @@ $erro = false;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'] ?? false;
     $estilo = $_POST['estilo'] ?? false;
+    $lancamento = $_POST['lancamento'] ?? false;
 
-    if (!$nome || !$estilo) {
+    if (!$nome || !$estilo || !$lancamento) {
         $erro = 'Preencha todos os campos imediatamente ou morra';
     } else {
         // Tudo certo - gravar dados
@@ -20,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $dados->bindParam(1, $nome);
         $dados->bindParam(2, $estilo);
         $dados->bindParam(3, $capa);
+        $dadsos->bindParam(4, $lancamento);
 
         $dados->execute();
 

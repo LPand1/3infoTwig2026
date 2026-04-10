@@ -23,6 +23,8 @@
             <option value="rpg" {% if jogo.estilo == 'rpg' %} selected{% endif %}>RPG</option>
         </select>
         <br>
+        Lançamento: <input type="date" name="lancamento">
+        <br>
         Capa: <img src="img//{{ jogo.capa }}"> 
         <input type="file" name="capa">
         <br>
